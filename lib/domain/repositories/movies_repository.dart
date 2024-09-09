@@ -1,5 +1,4 @@
 
-
 import 'package:cimenapedia/domain/entities/movie.dart';
 
 abstract class MoviesRepository {
