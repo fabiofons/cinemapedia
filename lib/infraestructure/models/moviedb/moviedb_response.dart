@@ -3,19 +3,19 @@ import 'dart:convert';
 import 'package:cimenapedia/infraestructure/models/moviedb/movie_moviedb.dart';
 
 
-NowPlaying nowPlayingFromJson(String str) =>
-    NowPlaying.fromJson(json.decode(str));
+MoviesDBResponse nowPlayingFromJson(String str) =>
+    MoviesDBResponse.fromJson(json.decode(str));
 
-String nowPlayingToJson(NowPlaying data) => json.encode(data.toJson());
+String nowPlayingToJson(MoviesDBResponse data) => json.encode(data.toJson());
 
-class NowPlaying {
+class MoviesDBResponse {
   Dates? dates;
   int page;
   List<MovieMovieDb> results;
   int totalPages;
   int totalResults;
 
-  NowPlaying({
+  MoviesDBResponse({
     required this.dates,
     required this.page,
     required this.results,
@@ -23,7 +23,7 @@ class NowPlaying {
     required this.totalResults,
   });
 
-  factory NowPlaying.fromJson(Map<String, dynamic> json) => NowPlaying(
+  factory MoviesDBResponse.fromJson(Map<String, dynamic> json) => MoviesDBResponse(
         dates: json["dates"] ? Dates.fromJson(json["dates"]) : null,
         page: json["page"],
         results: List<MovieMovieDb>.from(
