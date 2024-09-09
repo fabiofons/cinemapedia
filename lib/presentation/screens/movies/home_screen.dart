@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cimenapedia/config/constants/enviroment.dart';
+
 
 
 class HomeScreen extends StatelessWidget {
@@ -9,7 +11,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Placeholder(),
+      body: Center(
+        child: Text(Enviroment.theMovieDbKey),
+      )
     );
   }
 }
