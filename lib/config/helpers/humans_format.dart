@@ -9,7 +9,7 @@ class HumansFormat {
     return formatterNumber;
   }
 
-  static String porcentage(double number) {
+  static String votes(double number) {
     final formattedNumber =
       NumberFormat("###.#", "en_US")
         .format(number);
