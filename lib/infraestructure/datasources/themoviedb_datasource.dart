@@ -1,3 +1,4 @@
+import 'package:cimenapedia/infraestructure/models/moviedb/movie_details.dart';
 import 'package:dio/dio.dart';
 
 import 'package:cimenapedia/config/constants/enviroment.dart';
@@ -70,5 +71,17 @@ class ThemoviedbDatasource extends MoviesDatasource {
     );
 
     return _getMovies(response.data);
+  }
+
+  @override
+  Future<Movie> getMovieDetails(String id) async {
+    final response = await dio.get('/movie/$id');
+    if (response.statusCode != 200) throw Exception('Movie with id: $id not found');
+
+    final movieDetails = MovieDetails.fromJson(response.data);
+
+    final movie = MovieMapper.movieDetailsToEntity(movieDetails);
+
+    return movie;
   }
 }
