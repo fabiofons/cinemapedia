@@ -25,14 +25,18 @@ class MovieMapper {
 
   static Movie movieDetailsToEntity(MovieDetails movie) => Movie(
       adult: movie.adult,
-      backdropPath: movie.backdropPath,
+      backdropPath: (movie.backdropPath != '')
+          ? 'https://image.tmdb.org/t/p/w500${movie.backdropPath}'
+          : 'https://w0.peakpx.com/wallpaper/767/473/HD-wallpaper-page-error-404-internet-internetpageerror404.jpgp',
       genreIds: movie.genres.map((g) => g.name).toList(),
       id: movie.id,
       originalLanguage: movie.originalLanguage,
       originalTitle: movie.originalTitle,
       overview: movie.overview,
       popularity: movie.popularity,
-      posterPath: movie.posterPath,
+      posterPath: (movie.posterPath != '')
+          ? 'https://image.tmdb.org/t/p/w500${movie.posterPath}'
+          : 'https://w0.peakpx.com/wallpaper/767/473/HD-wallpaper-page-error-404-internet-internetpageerror404.jpgp',
       releaseDate: movie.releaseDate,
       title: movie.title,
       video: movie.video,
