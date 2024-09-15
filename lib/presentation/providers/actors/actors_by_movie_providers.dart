@@ -2,7 +2,7 @@ import 'package:cimenapedia/domain/entities/actor.dart';
 import 'package:cimenapedia/presentation/providers/actors/actors_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final actorsbyMovieIdProvider = StateNotifierProvider((ref) {
+final actorsbyMovieIdProvider = StateNotifierProvider<ActorsByMovieNotifier, Map<String, List<Actor>>>((ref) {
   final getActorsByMovieId =
       ref.watch(actorsRepositoryProvider).getActorsByMovie;
   return ActorsByMovieNotifier(getActorsByMovieId: getActorsByMovieId);
@@ -19,7 +19,7 @@ final actorsbyMovieIdProvider = StateNotifierProvider((ref) {
 
 typedef GetActorByMovieCallback = Future<List<Actor>> Function(String movieId);
 
-class ActorsByMovieNotifier extends StateNotifier {
+class ActorsByMovieNotifier extends StateNotifier<Map<String, List<Actor>>> {
   final GetActorByMovieCallback getActorsByMovieId;
 
   ActorsByMovieNotifier({required this.getActorsByMovieId}) : super({});

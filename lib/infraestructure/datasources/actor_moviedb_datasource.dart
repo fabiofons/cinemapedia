@@ -13,7 +13,6 @@ class ActorMoviedbDatasource extends ActorsDatasource {
       baseUrl: Enviroment.moviebdBaseUrl, 
       queryParameters: {
         'api_key': Enviroment.theMovieDbKey,
-        'language': 'es-MX'
       }
     )
   );
