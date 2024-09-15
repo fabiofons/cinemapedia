@@ -10,7 +10,7 @@ import 'package:cimenapedia/infraestructure/models/moviedb/moviedb_response.dart
 class ThemoviedbDatasource extends MoviesDatasource {
 
   final dio = Dio(
-      BaseOptions(baseUrl: 'https://api.themoviedb.org/3', queryParameters: {
+      BaseOptions(baseUrl: Enviroment.moviebdBaseUrl, queryParameters: {
     'api_key': Enviroment.theMovieDbKey,
     'language': 'es-MX'
   }));
