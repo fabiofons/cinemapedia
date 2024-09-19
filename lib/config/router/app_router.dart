@@ -27,14 +27,19 @@ final appRouter = GoRouter(
             ),
           ]
         ),
+        GoRoute(
+          path: '/favorites',
+          builder: (context, state) {
+            return const FavoritesView();
+          },
+        ),
+        GoRoute(
+          path: '/categories',
+          builder: (context, state) {
+            return const CategoriesView();
+          },
+        ),
       ]
-    ),
-  //rutas padres - hijos
-    GoRoute(
-      path: '/favorites',
-      builder: (context, state) {
-        return const FavoritesView();
-      },
     ),
   ]
 );
