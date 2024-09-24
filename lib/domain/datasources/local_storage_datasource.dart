@@ -5,5 +5,5 @@ abstract class LocalStorageDatasource {
 
   Future<bool> isFavoriteMovie(int movieId);
 
-  Future<List<Movie>> loadMovies({int limit = 10, int offset=0});
+  Future<List<Movie>> loadMovies({int limit = 12, int offset=0});
 }

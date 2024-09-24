@@ -1,3 +1,4 @@
+import 'package:cimenapedia/presentation/providers/storage/favorite_movies_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -182,6 +183,12 @@ class _ActorsByMovie extends ConsumerWidget {
   }
 }
 
+
+final isFavoriteProvider = FutureProvider.family.autoDispose((ref, int movieId) {
+  final localStorageRepository = ref.watch(localStorageRepositoryProvider);
+  return localStorageRepository.isFavoriteMovie(movieId);
+});
+
 class _CustomSliverAppbar extends ConsumerWidget {
   final Movie movie;
 
@@ -191,26 +198,30 @@ class _CustomSliverAppbar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
 
+    final isFavoriteFuture = ref.watch(isFavoriteProvider(movie.id));
+
     return SliverAppBar(
       backgroundColor: Colors.black,
       expandedHeight: size.height * 0.7,
       foregroundColor: Colors.white,
       actions: [
         IconButton(
-          onPressed: () {
-            ref.watch(localStorageRepositoryProvider).toggleFavorite(movie);
+          onPressed: () async {
+            // await ref.watch(localStorageRepositoryProvider).toggleFavorite(movie);
+            await ref.read(favoriteMoviesProvier.notifier).toggleFavorite(movie);
+            ref.invalidate(isFavoriteProvider(movie.id));
           },
-          icon: const Icon(Icons.favorite_border_outlined),
-          // icon: const Icon(Icons.favorite_rounded, color: Colors.red,)
+          icon: isFavoriteFuture.when(
+            loading: () => const CircularProgressIndicator(),
+            data: (isFavorite) => isFavorite
+              ? const Icon(Icons.favorite_rounded, color: Colors.red,)
+              : const Icon(Icons.favorite_border_outlined), 
+            error: (_, __) => throw UnimplementedError()
+          )
         )
       ],
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        // title: Text(
-        //   movie.title,
-        //   style: const TextStyle(fontSize: 20, color: Colors.white),
-        //   textAlign: TextAlign.end,
-        // ),
         background: Stack(
           children: [
             SizedBox.expand(
