@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:cimenapedia/presentation/providers/storage/favorite_movies_provider.dart';
 import 'package:cimenapedia/presentation/widgets/widgets.dart';
@@ -13,7 +14,6 @@ class FavoritesView extends ConsumerStatefulWidget {
 }
 
 class FavoritesViewState extends ConsumerState<FavoritesView> {
-
   bool isLoading = false;
   bool isLastPage = false;
 
@@ -24,14 +24,15 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
   }
 
   void loadNextPage() async {
-    if( isLoading || isLastPage ) return;
+    if (isLoading || isLastPage) return;
 
     isLoading = true;
 
-    final videos = await ref.read(favoriteMoviesProvier.notifier).loadNextPage();
+    final videos =
+        await ref.read(favoriteMoviesProvier.notifier).loadNextPage();
     isLoading = false;
-    
-    if(videos.isEmpty) {
+
+    if (videos.isEmpty) {
       isLastPage = true;
     }
   }
@@ -39,13 +40,44 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
   @override
   Widget build(BuildContext context) {
     final favoriteMovies = ref.watch(favoriteMoviesProvier).values.toList();
-    // final favoriteMoviesList = favoriteMovies.entries.map( //hard way
-    //     (movieId) {
-    //       return movieId.value;
-    //     }).toList();
+
+    if (favoriteMovies.isEmpty) {
+      final colors = Theme.of(context).colorScheme;
+      return Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.favorite_border_outlined,
+              color: colors.primary,
+              size: 60,
+            ),
+            Text(
+              'Ohh noo!!',
+              style: TextStyle(fontSize: 30, color: colors.primary),
+            ),
+            const Text(
+              "You don't have favorites movies",
+              style: TextStyle(fontSize: 20, color: Colors.black54),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            FilledButton(
+                onPressed: () {
+                  context.go('/home/0');
+                },
+                child: const Text('Visit home'))
+          ],
+        ),
+      );
+    }
 
     return Scaffold(
-      body: MovieMasonry(movies: favoriteMovies, loadNextPage: loadNextPage,)
-    );
+        body: MovieMasonry(
+      movies: favoriteMovies,
+      loadNextPage: loadNextPage,
+    ));
   }
 }
